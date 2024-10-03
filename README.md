@@ -101,6 +101,16 @@ nano requirements.txt
 
 ---
 
+### Running a FastAPI project
+
+```
+uvicorn main:app --reload
+```
+
+> Note: insert any filename then follow with colon app
+
+---
+
 ### Dependencies used:
 
 - Uvicorn - async web server implementation for Python.
