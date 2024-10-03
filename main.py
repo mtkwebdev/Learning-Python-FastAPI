@@ -12,7 +12,7 @@ def get_root():
     """Root route, sending an example nested dictionary body of data"""
     return example_data
 
-@app.get("/{name}")
+@app.get("/dynamic/{name}")
 def get_dynamic_path_by_name(name:str):
     """A dynamic route that will return a message based on the route path parameter"""
     copy_of_example_data = example_data
