@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from uuid import UUID
+from fastapi import FastAPI, HTTPException
 from Models.Books import BooksModel
 
 app = FastAPI()
@@ -19,16 +20,30 @@ def get_dynamic_path_by_name(name:str):
     copy_of_example_data["data"].update({"message": name})
     return copy_of_example_data
 
-@app.get("/books")
+@app.get("/books/all")
 def get_books():
+    """Gets all book entries"""
     return booksArray
 
-@app.post("/books")
-def create_books(bookData:BooksModel):
-    booksArray.append(bookData)
+@app.post("/books/create")
+def create_books(book_data:BooksModel):
+    """Creates a new book entry"""
+    booksArray.append(book_data)
     return booksArray
 
-# @app.put("/books")
-# def update_books(bookData:BooksModel):
-#     booksArray.append(bookData)
-#     return booksArray
+@app.put("/books/{book_id}")
+def update_books_by_id(book_id: UUID, updated_book:BooksModel):
+    """updates an existing book entry by a matching ID"""
+    for book in booksArray:
+        i = 0
+        if book.id == book_id:
+            booksArray[i] = updated_book
+            # if the id is not updated in the updated_book, it is added here instead.
+            booksArray[i].id = book_id
+            return booksArray[i]
+        i += 1
+    raise HTTPException(
+        status_code=404,
+        detail= f"ID {book_id} : does not exist"
+    )
+
