@@ -47,3 +47,13 @@ def update_books_by_id(book_id: UUID, updated_book:BooksModel):
         detail= f"ID {book_id} : does not exist"
     )
 
+@app.delete("/books/{book_id}")
+def delete_book_by_id(book_id: UUID):
+    """Delete book by id"""
+    for book in booksArray:
+        i = 0
+        if book.id == book_id:
+            deleted_book = booksArray[i]
+            del booksArray[i]
+            return deleted_book
+        i += 1
